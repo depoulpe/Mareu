@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ma réu</string>
+    <string name="confirm_delete_desc">Supprimer cette réunion.</string>
+    <string name="confirm_delete_caption">Confirmez la suppression</string>
+    <string name="no">Annuler</string>
+    <string name="yes">Supprimer</string>
+</resources>
