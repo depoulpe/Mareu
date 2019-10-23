@@ -4,19 +4,50 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class Meeting {
+    /** Identifier */
+    private int id;
 
-
+    /** Meeting room name */
     private String room;
-    private Timestamp start_date;
-    private int duree;
-    private String subject;
-    private List<String> participants;
 
-    public Meeting(String room,Timestamp start_date,int duree,String subject){
+    /** Meeting date */
+    private Timestamp startDate;
+
+    /** Meeting duration */
+    private int duration;
+
+    /** Subject of meeting */
+    private String subject;
+
+    /** List of participants */
+    private List<String> participants;
+    /**
+     * Constructor
+     * @param id
+     * @param room
+     * @param startDate
+     * @param duration
+     * @param subject
+     */
+    public Meeting(int id,String room,Timestamp startDate,int duration,String subject){
+        this.id = id;
+        this.room=room;
+        this.startDate=startDate;
+        this.duration=duration;
+        this.subject=subject;/*
+        setId(id);
         setRoom(room);
         setStart_date(start_date);
         setDuree(duree);
-        setSubject(subject);
+        setSubject(subject);*/
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRoom() {
@@ -27,20 +58,20 @@ public class Meeting {
         this.room = room;
     }
 
-    public Timestamp getStart_date() {
-        return start_date;
+    public Timestamp getStartDate() {
+        return startDate;
     }
 
     public void setStart_date(Timestamp start_date) {
-        this.start_date = start_date;
+        this.startDate = startDate;
     }
 
     public int getDuree() {
-        return duree;
+        return duration;
     }
 
     public void setDuree(int duree) {
-        this.duree = duree;
+        this.duration = duree;
     }
 
     public String getSubject() {

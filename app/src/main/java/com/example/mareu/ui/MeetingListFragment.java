@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mareu.R;
+import com.example.mareu.di.DI;
 import com.example.mareu.model.Meeting;
+import com.example.mareu.service.MeetingApiService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,8 +28,8 @@ public class MeetingListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MeetingListRecyclerViewAdapter mAdapter;
-    private List<Meeting> meetingsList = new ArrayList<>();
-
+    private List<Meeting> meetings;
+    private MeetingApiService mApiService;
     MeetingListCallback meetingListCallback;
 
     public interface MeetingListCallback{
@@ -45,31 +47,37 @@ public class MeetingListFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        mApiService = DI.getMeetingApiService();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_meeting_list, container, false);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.fragment_meeting_recycler_view);
-        this.configureRecyclerView();
         this.initMeetingList();
+        this.configureRecyclerView();
+
         return view;
     }
 
     private void configureRecyclerView() {
-        this.meetingsList = new ArrayList<>();
-        this.mAdapter = new MeetingListRecyclerViewAdapter(this.meetingsList,this.meetingListCallback);
+        this.mAdapter = new MeetingListRecyclerViewAdapter(this.meetings,this.meetingListCallback);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
 
     private void initMeetingList() {
-        Meeting meeting = new Meeting("Réunion A",new Timestamp(1571563782),45,"Peach");
-        meetingsList.add(meeting);
-        meeting = new Meeting("Réunion B",new Timestamp(1571564782),60,"Mario");
-        meetingsList.add(meeting);
-        mAdapter.notifyDataSetChanged();
+        meetings = mApiService.getMeetings();
+        if(mAdapter!=null)
+            mAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -83,5 +91,4 @@ public class MeetingListFragment extends Fragment {
         super.onDetach();
         meetingListCallback = null;
     }
-
 }

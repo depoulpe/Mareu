@@ -3,6 +3,10 @@ package com.example.mareu.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +21,8 @@ import java.util.List;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
-    private List<Meeting> meetings;
-    MeetingListFragment.MeetingListCallback mListener;
+    private final List<Meeting> meetings;
+    private final MeetingListFragment.MeetingListCallback mListener;
     //Constructor
     public MeetingListRecyclerViewAdapter(List<Meeting> meetings, MeetingListFragment.MeetingListCallback mListener){
         this.meetings = meetings;
@@ -35,17 +39,13 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MeetingViewHolder meetingViewHolder, int position) {
-        final Meeting meeting = meetings.get(position);
+    public void onBindViewHolder(final MeetingViewHolder meetingViewHolder, int position) {
+       final Meeting meeting = meetings.get(position);
         meetingViewHolder.room.setText(meeting.getRoom());
       //  meetingViewHolder.date.setText(meeting.getStart_date().toString());
         meetingViewHolder.subject.setText(meeting.getSubject());
         meetingViewHolder.selectMeeting(meeting);
-        /*Drawable tempDrawable = meetingViewHolder.itemView.getContext().getDrawable( R.drawable.circle );
-        LayerDrawable bubble = (LayerDrawable) tempDrawable;
-        GradientDrawable solidColor = (GradientDrawable) bubble.findDrawableByLayerId(R.id.item_list_color);
-        solidColor.setColor(Color.BLACK);*/
-        // meetingViewHolder.circle.setColorFilter(R.color.colorA);
+;
 /**
  * Dommage getForeground API 23
 
@@ -65,7 +65,9 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
  }
  */
 
-        meetingViewHolder.circle.setColorFilter(Color.LTGRAY);
+      //  meetingViewHolder.date.setTextColor(Color.BLUE);
+      //  meetingViewHolder.circle.setColorFilter(Color.BLUE);
+       // meetingViewHolder.circle.getDrawable().setColorFilter(ColorFilter);
 
         meetingViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
             /**
