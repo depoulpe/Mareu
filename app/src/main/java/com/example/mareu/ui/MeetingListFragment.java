@@ -3,8 +3,10 @@ package com.example.mareu.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +18,7 @@ import com.example.mareu.di.DI;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.service.MeetingApiService;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,9 +29,12 @@ public class MeetingListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MeetingListRecyclerViewAdapter mAdapter;
-    private List<Meeting> meetings;
+    private List<Meeting> mMeetings;
     private MeetingApiService mApiService;
     MeetingListCallback meetingListCallback;
+
+
+
 
     public interface MeetingListCallback{
         void onDeleteClicked(Meeting meeting);
@@ -66,16 +70,18 @@ public class MeetingListFragment extends Fragment {
     }
 
     private void configureRecyclerView() {
-        this.mAdapter = new MeetingListRecyclerViewAdapter(this.meetings,this.meetingListCallback);
+        this.mAdapter = new MeetingListRecyclerViewAdapter(this.mMeetings,this.meetingListCallback);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //this.mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
     }
 
     private void initMeetingList() {
-        meetings = mApiService.getMeetings();
+        mMeetings = mApiService.getMeetings();
         if(mAdapter!=null)
             mAdapter.notifyDataSetChanged();
+        //  mAdapter.notifyItemRangeChanged(0,mMeetings.size());
     }
 
     @Override
@@ -90,5 +96,82 @@ public class MeetingListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         meetingListCallback = null;
+    }
+    public boolean sortBy(int itemId) {
+        boolean ret=false;
+        switch (itemId) {
+            case R.id.action_filter_date:
+                mMeetings = mApiService.getMeetingsOrderByDate(mMeetings);
+                ret=true;
+                break;
+            case R.id.action_filter_room:
+                mMeetings = mApiService.getMeetingsOrderByRoom(mMeetings);
+                ret=true;
+                break;
+            case R.id.action_no_filter:
+                mMeetings = mApiService.getMeetings();
+                ret=true;
+                break;
+        }
+        if(mAdapter!=null)
+            mAdapter.notifyDataSetChanged();
+        return ret;
+    }
+
+    public void deleteMeeting(final Meeting meeting) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        // builder.setTitle(R.string.confirm_delete_caption);
+        builder.setMessage(R.string.confirm_delete_desc);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mApiService.deleteMeeting(meeting);
+                mAdapter.notifyDataSetChanged();
+
+           //       mAdapter.notifyItemRangeChanged(mAdapter.getAdapterPosition(),mMeetings.size());
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.show();
+    }
+
+    public void addMeeting(final Meeting meeting) {
+        mApiService.addMeeting(meeting);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Filter meetings by date
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     */
+    public void filterByDate(int year, int monthOfYear, int dayOfMonth) {
+        mMeetings = mApiService.getMeetingsFilteredByDate(new Date(year,monthOfYear,dayOfMonth));
+    }
+
+    /**
+     * Remove filters
+     */
+    public void noFilter() {
+        mMeetings = mApiService.getMeetings();
+        mAdapter.filterList(this.mMeetings);
+    }
+
+    /**
+     * Filter meetings by room
+     * @param room
+     */
+    public void filterByRoom(String room) {
+        this.mMeetings = mApiService.getMeetingsFilteredByRoom(room);
+        mAdapter.filterList(this.mMeetings );
     }
 }

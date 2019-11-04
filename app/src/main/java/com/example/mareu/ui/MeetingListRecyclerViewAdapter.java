@@ -1,15 +1,9 @@
 package com.example.mareu.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +11,17 @@ import android.view.ViewGroup;
 import com.example.mareu.R;
 import com.example.mareu.model.Meeting;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
-    private final List<Meeting> meetings;
+    private List<Meeting> mMeetings;
     private final MeetingListFragment.MeetingListCallback mListener;
     //Constructor
-    public MeetingListRecyclerViewAdapter(List<Meeting> meetings, MeetingListFragment.MeetingListCallback mListener){
-        this.meetings = meetings;
+    public MeetingListRecyclerViewAdapter(List<Meeting> mMeetings, MeetingListFragment.MeetingListCallback mListener){
+        this.mMeetings = mMeetings;
         this.mListener=mListener;
     }
 
@@ -40,10 +36,13 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
     @Override
     public void onBindViewHolder(final MeetingViewHolder meetingViewHolder, int position) {
-       final Meeting meeting = meetings.get(position);
-        meetingViewHolder.room.setText(meeting.getRoom());
-      //  meetingViewHolder.date.setText(meeting.getStart_date().toString());
-        meetingViewHolder.subject.setText(meeting.getSubject());
+       final Meeting meeting = mMeetings.get(position);
+        //meetingViewHolder.room.setText(meeting.getRoom());
+        String date  = new SimpleDateFormat(" MM/dd HH:mm").format(meeting.getStartDate());
+
+        meetingViewHolder.topic.setText(meeting.getTopic()+" - "+date+" - "+meeting.getRoom());
+        String participants= TextUtils.join(";",meeting.getParticipants());
+        meetingViewHolder.participants.setText(participants);
         meetingViewHolder.selectMeeting(meeting);
 ;
 /**
@@ -84,32 +83,19 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
             @Override
             public void onClick(View v) {
                 mListener.onDeleteClicked(meeting);
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                // builder.setTitle(R.string.confirm_delete_caption);
-                builder.setMessage(R.string.confirm_delete_desc);
-                builder.setCancelable(false);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //  EventBus.getDefault().post(new RemoveNeighbourFromFavoriteEvent(neighbour));
-                        //   EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
-                    }
-                });
-
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.show();
+                notifyItemRangeChanged(meetingViewHolder.getAdapterPosition(),mMeetings.size());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return this.meetings.size();
+        return this.mMeetings.size();
+    }
+
+    public void filterList(List<Meeting> filteredList)
+    {
+        this.mMeetings = filteredList;
+        notifyDataSetChanged();
     }
 }

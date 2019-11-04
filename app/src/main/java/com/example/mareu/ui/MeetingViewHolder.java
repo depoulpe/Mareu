@@ -11,18 +11,19 @@ import com.example.mareu.R;
 import com.example.mareu.model.Meeting;
 
 class MeetingViewHolder extends RecyclerView.ViewHolder {
-    public TextView room,date,subject;
+    public TextView room,date, topic,participants;
     public ImageView circle;
     public ImageButton deleteButton;
-    private Meeting meeting;
+    private Meeting mMeeting;
     MeetingListFragment.MeetingListCallback mListener;
 
     public MeetingViewHolder(@NonNull View itemView, MeetingListFragment.MeetingListCallback _mListener) {
         super(itemView);
         mListener = _mListener;
-        room = (TextView) itemView.findViewById(R.id.item_meeting_room);
-        date = (TextView) itemView.findViewById(R.id.item_meeting_date);
-        subject = (TextView) itemView.findViewById(R.id.item_meeting_subject);
+       // room = (TextView) itemView.findViewById(R.id.item_meeting_room);
+      //  date = (TextView) itemView.findViewById(R.id.item_meeting_date);
+        topic = (TextView) itemView.findViewById(R.id.item_meeting_subject);
+        participants =  (TextView) itemView.findViewById(R.id.item_list_participants);
         circle = (ImageView) itemView.findViewById(R.id.item_list_color);
         deleteButton = (ImageButton) itemView.findViewById(R.id.item_list_delete_button);
 
@@ -31,7 +32,7 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
 
                 //Ici on envoie un message à notre activity
-                mListener.onItemClicked(meeting);
+                mListener.onItemClicked(mMeeting);
 
             }
         });
@@ -40,7 +41,7 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
 
                 //Ici on envoie un message à notre activity
-                mListener.onDeleteClicked(meeting);
+                mListener.onDeleteClicked(mMeeting);
 
             }
         });
@@ -48,6 +49,6 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
     }
     public void selectMeeting(Meeting meeting)
     {
-        this.meeting=meeting;
+        this.mMeeting =meeting;
     }
 }
