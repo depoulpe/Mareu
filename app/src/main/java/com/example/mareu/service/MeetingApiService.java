@@ -2,6 +2,7 @@ package com.example.mareu.service;
 
 import com.example.mareu.model.Meeting;
 
+import java.util.Date;
 import java.util.List;
 
 public interface MeetingApiService {
@@ -10,6 +11,19 @@ public interface MeetingApiService {
      * @return {@link List}
      */
     List <Meeting> getMeetings();
+
+    /**
+     * Get all Meetings order by meeting room
+     * @return {@link List}
+     */
+    List <Meeting> getMeetingsOrderByRoom(List<Meeting> meetings);
+
+    /**
+     * Get all Meetings order by meeting date
+     * @return {@link List}
+     * @param meetings
+     */
+    List <Meeting> getMeetingsOrderByDate(List<Meeting> meetings);
 
     /**
      * Deletes a meeting
@@ -22,4 +36,8 @@ public interface MeetingApiService {
      * @param meeting
      */
     void addMeeting(Meeting meeting);
+
+    List<Meeting> getMeetingsFilteredByDate(Date date);
+
+    List<Meeting> getMeetingsFilteredByRoom(String room);
 }

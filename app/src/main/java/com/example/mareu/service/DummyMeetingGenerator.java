@@ -5,24 +5,31 @@ import com.example.mareu.model.Meeting;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public abstract class DummyMeetingGenerator {
+    public static List<String> participants = new ArrayList<String>() {
+        {
+            add("francis@lamzone.com");
+            add("alexandra@lamzone.com");
+            add("nico@lamzone.com");
+        }
+    };
+
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(1,"Réunion A",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(2,"Réunion C",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(3,"Réunion B",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(4,"Réunion D",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(5,"Réunion E",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(6,"Réunion F",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(7,"Réunion G",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(8,"Réunion H",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(9,"Réunion A",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(10,"Réunion I",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(11,"Réunion J",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(12,"Réunion B",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(13,"Réunion A",new Timestamp(1571563782),45,"Peach"),
-            new Meeting(14,"Réunion C",new Timestamp(1571563782),45,"Peach")
+            new Meeting("Réunion A",new Date(2019,10,22,8,15),new Date(2019,10,22,8,35),"Salle 1",participants),
+            new Meeting("Réunion C",new Date(2019,10,23,8,15),new Date(2019,10,23,8,55),"Salle 2",participants)
+           /* new Meeting("Réunion B",new Date(2019,10,23,9,00),new Date(2019,10,23,9,45),"Salle 1","franck@lamzone.com"),
+            new Meeting("Réunion D",new Date(2019,10,24,16,00),new Date(2019,10,24,17,15),"Salle 2","alexandra@lamzone.com;michel@lamzone.com"),
+            new Meeting("Réunion E",new Date(2019,10,24,9,15),new Date(2019,10,24,10,00),"Salle 3","carole@lamzone.com;gilles@lamzone.com")
+           new Meeting(8,"Réunion H",new Date(2019,10,23,14,00),45,"Peach"),
+            new Meeting(9,"Réunion I",new Date(2019,10,23,16,15),45,"Wario"),
+            new Meeting(10,"Réunion J",new Date(2019,10,23,8,15),45,"Bowser"),
+            new Meeting(11,"Réunion K",new Date(2019,10,23,8,15),45,"Yoshi"),
+            new Meeting(12,"Réunion L",new Date(2019,10,23,8,15),45,"Kong"),
+            new Meeting(13,"Réunion M",new Date(2019,10,23,8,15),45,"Maskass"),
+            new Meeting(14,"Réunion N",new Date(2019,10,23,15,30),45,"Peach")*/
     );
 
     static List<Meeting> generateMeetings() {
