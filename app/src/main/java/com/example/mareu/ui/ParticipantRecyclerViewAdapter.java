@@ -1,4 +1,4 @@
-package com.example.mareu;
+package com.example.mareu.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import com.example.mareu.R;
 
 import java.util.List;
 

@@ -1,10 +1,12 @@
-package com.example.mareu;
+package com.example.mareu.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.mareu.R;
 
 import java.util.List;
 
