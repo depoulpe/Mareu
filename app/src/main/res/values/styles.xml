@@ -6,6 +6,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
-
+    <style name="DialogTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!-- Styles -->
+    <style name="OverFlow" >
+        <item name="android:src">@drawable/ic_filter_list</item>
+        <item name="android:tint">#ffffff</item>
+    </style>
 </resources>

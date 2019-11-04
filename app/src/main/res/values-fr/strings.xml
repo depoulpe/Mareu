@@ -4,4 +4,27 @@
     <string name="confirm_delete_caption">Confirmez la suppression</string>
     <string name="no">Annuler</string>
     <string name="yes">Supprimer</string>
+    <string name="sort_by_date">Trier par date</string>
+    <string name="sort_by_room">Trier par salle</string>
+    <string name="no_sort">No sort</string>
+    <string name="date_format">EEE. dd MMM. yyyy</string>
+    <string name="save">Sauvegarder</string>
+    <string-array name="rooms_array">
+        <item>Salle 1</item>
+        <item>Salle 2</item>
+        <item>Salle 3</item>
+        <item>Salle 4</item>
+        <item>Salle 5</item>
+        <item>Salle 6</item>
+        <item>Salle 7</item>
+        <item>Salle 8</item>
+        <item>Salle 9</item>
+        <item>Salle 10</item>
+    </string-array>
+    <string name="add_guest">Ajouter des invités</string>
+    <string name="filter_by_room">Filtrer par salle</string>
+    <string name="no_filter">Pas de filtre</string>
+    <string name="apply">Appliquer</string>
+    <string name="filter_by_date">Filrer par date</string>
+    <string name="select_option">Please select an option"</string>
 </resources>

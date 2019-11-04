@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">Ma réu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="confirm_delete_caption">Confirm delete</string>
+    <string name="confirm_delete_desc">"You are about to delete a meeting. Do you really want to proceed ?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="sort_by_room">Sort by room</string>
+    <string name="no_sort">No sort</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+    <string name="set_date">Set date</string>
+    <string name="set_time">Set Time</string>
+    <string name="date_format">EEE, MMM dd yyyy</string>
+    <string name="save">Save</string>
+    <string name="add_guest">Add guests</string>
+    <string name="filter_by_room">Filter by room</string>
+    <string name="no_filter">No filter</string>
+    <string name="filter_by_date">Filter by date</string>
+    <string name="select_option">Please select an option"</string>
+    <string name="apply">apply</string>
+    <string-array name="rooms_array">
+        <item>Room 1</item>
+        <item>Room 2</item>
+        <item>Room 3</item>
+        <item>Room 4</item>
+        <item>Room 5</item>
+        <item>Room 6</item>
+        <item>Room 7</item>
+        <item>Room 8</item>
+        <item>Room 9</item>
+        <item>Room 10</item>
+    </string-array>
 </resources>

@@ -4,124 +4,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-        <ImageView
-            android:id="@+id/item_list_color"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:foreground="@drawable/circle"
-            app:background="@drawable/circle"
-            android:layout_alignParentLeft="true"/>
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <ImageView
+        android:id="@+id/item_list_color"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/circle"
+        app:background="@drawable/circle"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="6">
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/item_meeting_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item_meeting_subject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Réunion A"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_meeting_room"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="Peach"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_meeting_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:text="16H30"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:text="Réunion A - 21/10 16h00 - Peach"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/item_list_participants"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="gilles@shcreaweb.nc;depoulpe@free.fr"
-            android:textStyle="bold" />
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="gilles@shcreaweb.nc;depoulpe@free.fr;depoulpe@free.fr"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/item_list_delete_button"
-        android:layout_width="35dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:background="@null"
-        app:srcCompat="@drawable/baseline_delete_24" />
-    </RelativeLayout>
-
+        android:src="@drawable/ic_delete_white_24dp"
+        android:layout_weight="1"/>
 </LinearLayout>
-<!--
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="5dp"
-            android:src="@android:drawable/ic_menu_camera" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="First Text View"
-         />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Second Text view"
-        />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView12"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentRight="true"
-            android:src="@android:drawable/ic_menu_camera" />
-    </RelativeLayout>
-</RelativeLayout>-->
