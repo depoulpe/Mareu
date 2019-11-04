@@ -1,6 +1,8 @@
 package com.example.mareu.model;
 
-import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class Meeting {
@@ -11,35 +13,29 @@ public class Meeting {
     private String room;
 
     /** Meeting date */
-    private Timestamp startDate;
+    private Date startDate;
 
     /** Meeting duration */
-    private int duration;
+    private Date endDate;
 
-    /** Subject of meeting */
-    private String subject;
+    /** topic of the meeting */
+    private String mTopic;
 
     /** List of participants */
-    private List<String> participants;
+    private List<String> mParticipants;
     /**
      * Constructor
-     * @param id
      * @param room
      * @param startDate
-     * @param duration
-     * @param subject
+     * @param endDate
+     * @param mTopic
      */
-    public Meeting(int id,String room,Timestamp startDate,int duration,String subject){
-        this.id = id;
+    public Meeting(String mTopic, Date startDate, Date endDate, String room,List<String> participants){
         this.room=room;
         this.startDate=startDate;
-        this.duration=duration;
-        this.subject=subject;/*
-        setId(id);
-        setRoom(room);
-        setStart_date(start_date);
-        setDuree(duree);
-        setSubject(subject);*/
+        this.endDate=endDate;
+        this.mTopic = mTopic;
+        setParticipants(participants);
     }
 
     public int getId() {
@@ -58,35 +54,55 @@ public class Meeting {
         this.room = room;
     }
 
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStart_date(Timestamp start_date) {
+    public void setStart_date(Date start_date) {
         this.startDate = startDate;
     }
 
-    public int getDuree() {
-        return duration;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setDuree(int duree) {
-        this.duration = duree;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getTopic() {
+        return mTopic;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTopic(String topic) {
+        this.mTopic = topic;
     }
 
     public List<String> getParticipants() {
-        return participants;
+        return mParticipants;
     }
 
     public void setParticipants(List<String> participants) {
-        this.participants = participants;
+        this.mParticipants = participants;
     }
+
+    public static Comparator<Meeting> MeetingRoomComparator = new Comparator<Meeting>() {
+        @Override
+        public int compare(Meeting o1, Meeting o2) {
+            String room1 = o1.getRoom().toUpperCase();
+            String room2 = o2.getRoom().toUpperCase();
+            //ascending order
+            return room1.compareTo(room2);
+        }
+    };
+
+    public static Comparator<Meeting> MeetingDateComparator = new Comparator<Meeting>() {
+        @Override
+        public int compare(Meeting o1, Meeting o2) {
+            Date ts1 = o1.getStartDate();
+            Date ts2 = o2.getStartDate();
+            //ascending order
+            return ts1.compareTo(ts2);
+        }
+    };
 }
