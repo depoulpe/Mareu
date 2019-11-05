@@ -62,10 +62,8 @@ public class DummyMeetingApiService implements MeetingApiService {
            /// if(DateUtils.)
             if( meeting_date.compareTo(filterDate)==0)
             {
-
                 meetings.add(meeting);
             }
-
         }
         return meetings;
     }
@@ -76,12 +74,12 @@ public class DummyMeetingApiService implements MeetingApiService {
      * @return {@link List}
      */
     @Override
-    public List<Meeting> getMeetingsFilteredByRoom(String room) {
+    public List<Meeting> getMeetingsFilteredByRoom(int room) {
         List<Meeting> meetings = new ArrayList<>();
 
         for(Meeting meeting : mMeetings)
         {
-            if(meeting.getRoom().compareTo(room)==0)
+            if(meeting.getRoom() == room)
             {
                 meetings.add(meeting);
             }

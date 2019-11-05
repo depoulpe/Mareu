@@ -39,5 +39,5 @@ public interface MeetingApiService {
 
     List<Meeting> getMeetingsFilteredByDate(Date date);
 
-    List<Meeting> getMeetingsFilteredByRoom(String room);
+    List<Meeting> getMeetingsFilteredByRoom(int room);
 }

@@ -18,10 +18,10 @@ public abstract class DummyMeetingGenerator {
     };
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting("Réunion A",new Date(2019,10,22,8,15),new Date(2019,10,22,8,35),"Salle 1",participants),
-            new Meeting("Réunion B",new Date(2019,10,23,8,15),new Date(2019,10,23,8,55),"Salle 2",participants),
-            new Meeting("Réunion C",new Date(2019,10,23,14,00),new Date(2019,10,23,15,35),"Salle 3",participants),
-            new Meeting("Réunion D",new Date(2019,10,24,10,00),new Date(2019,10,24,10,55),"Salle 1",participants)
+            new Meeting("Réunion A",new Date(2019,10,22,8,15),new Date(2019,10,22,8,35),0,participants),
+            new Meeting("Réunion B",new Date(2019,10,23,8,15),new Date(2019,10,23,8,55),1,participants),
+            new Meeting("Réunion C",new Date(2019,10,23,14,00),new Date(2019,10,23,15,35),2,participants),
+            new Meeting("Réunion D",new Date(2019,10,24,10,00),new Date(2019,10,24,10,55),0,participants)
 
             /* new Meeting("Réunion B",new Date(2019,10,23,9,00),new Date(2019,10,23,9,45),"Salle 1","franck@lamzone.com"),
             new Meeting("Réunion D",new Date(2019,10,24,16,00),new Date(2019,10,24,17,15),"Salle 2","alexandra@lamzone.com;michel@lamzone.com"),

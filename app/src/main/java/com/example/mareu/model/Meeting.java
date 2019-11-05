@@ -9,8 +9,8 @@ public class Meeting {
     /** Identifier */
     private int id;
 
-    /** Meeting room name */
-    private String room;
+    /** Meeting room id */
+    private int mRoom;
 
     /** Meeting date */
     private Date startDate;
@@ -30,8 +30,8 @@ public class Meeting {
      * @param endDate
      * @param mTopic
      */
-    public Meeting(String mTopic, Date startDate, Date endDate, String room,List<String> participants){
-        this.room=room;
+    public Meeting(String mTopic, Date startDate, Date endDate, int room,List<String> participants){
+        this.mRoom=room;
         this.startDate=startDate;
         this.endDate=endDate;
         this.mTopic = mTopic;
@@ -46,12 +46,12 @@ public class Meeting {
         this.id = id;
     }
 
-    public String getRoom() {
-        return room;
+    public int getRoom() {
+        return mRoom;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setRoom(int room) {
+        this.mRoom = room;
     }
 
     public Date getStartDate() {
@@ -89,10 +89,10 @@ public class Meeting {
     public static Comparator<Meeting> MeetingRoomComparator = new Comparator<Meeting>() {
         @Override
         public int compare(Meeting o1, Meeting o2) {
-            String room1 = o1.getRoom().toUpperCase();
-            String room2 = o2.getRoom().toUpperCase();
+            int room1 = o1.getRoom();
+            int room2 = o2.getRoom();
             //ascending order
-            return room1.compareTo(room2);
+            return room2 - room1;
         }
     };
 

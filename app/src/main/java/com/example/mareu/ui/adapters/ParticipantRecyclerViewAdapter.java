@@ -1,4 +1,4 @@
-package com.example.mareu.ui;
+package com.example.mareu.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import com.example.mareu.R;
 
 import java.util.List;
 
-class ParticipantRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsViewHolder> {
+public class ParticipantRecyclerViewAdapter extends RecyclerView.Adapter<ParticipantsViewHolder> {
 
     private List<String> mParticipants;
     public ParticipantRecyclerViewAdapter(List<String> participants) {

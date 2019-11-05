@@ -1,6 +1,7 @@
-package com.example.mareu.ui;
+package com.example.mareu.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.mareu.R;
 import com.example.mareu.model.Meeting;
+import com.example.mareu.ui.fragments.MeetingListFragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
@@ -36,38 +37,16 @@ public class MeetingListRecyclerViewAdapter extends RecyclerView.Adapter<Meeting
 
     @Override
     public void onBindViewHolder(final MeetingViewHolder meetingViewHolder, int position) {
-       final Meeting meeting = mMeetings.get(position);
-        //meetingViewHolder.room.setText(meeting.getRoom());
+        final Meeting meeting = mMeetings.get(position);
         String date  = new SimpleDateFormat(" MM/dd HH:mm").format(meeting.getStartDate());
+        String[] rooms = meetingViewHolder.itemView.getResources().getStringArray(R.array.rooms_array);
+        String[] colors = meetingViewHolder.itemView.getResources().getStringArray(R.array.rooms_color_array);
 
-        meetingViewHolder.topic.setText(meeting.getTopic()+" - "+date+" - "+meeting.getRoom());
+        meetingViewHolder.topic.setText(meeting.getTopic()+" - "+date+" - "+rooms[meeting.getRoom()]);
         String participants= TextUtils.join(";",meeting.getParticipants());
         meetingViewHolder.participants.setText(participants);
         meetingViewHolder.selectMeeting(meeting);
-;
-/**
- * Dommage getForeground API 23
-
- Drawable background = meetingViewHolder.circle.getForeground();
- if (background instanceof ShapeDrawable) {
- // cast to 'ShapeDrawable'
- ShapeDrawable shapeDrawable = (ShapeDrawable) background;
- shapeDrawable.getPaint().setColor(ContextCompat.getColor(meetingViewHolder.itemView.getContext(), R.color.colorA));
- } else if (background instanceof GradientDrawable) {
- // cast to 'GradientDrawable'
- GradientDrawable gradientDrawable = (GradientDrawable) background;
- gradientDrawable.setColor(ContextCompat.getColor(meetingViewHolder.itemView.getContext(), R.color.colorA));
- } else if (background instanceof ColorDrawable) {
- // alpha value may need to be set again after this call
- ColorDrawable colorDrawable = (ColorDrawable) background;
- colorDrawable.setColor(ContextCompat.getColor(meetingViewHolder.itemView.getContext(), R.color.colorA));
- }
- */
-
-      //  meetingViewHolder.date.setTextColor(Color.BLUE);
-      //  meetingViewHolder.circle.setColorFilter(Color.BLUE);
-       // meetingViewHolder.circle.getDrawable().setColorFilter(ColorFilter);
-
+        meetingViewHolder.circle.setColorFilter(Color.parseColor(colors[meeting.getRoom()]));
         meetingViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
             /**
              * Called when a view has been clicked.

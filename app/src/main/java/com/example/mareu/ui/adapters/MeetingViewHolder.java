@@ -1,4 +1,4 @@
-package com.example.mareu.ui;
+package com.example.mareu.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.mareu.R;
 import com.example.mareu.model.Meeting;
+import com.example.mareu.ui.fragments.MeetingListFragment;
 
 class MeetingViewHolder extends RecyclerView.ViewHolder {
     public TextView room,date, topic,participants;
