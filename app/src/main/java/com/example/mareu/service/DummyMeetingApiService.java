@@ -1,5 +1,7 @@
 package com.example.mareu.service;
 
+import android.text.format.DateUtils;
+
 import com.example.mareu.model.Meeting;
 
 import java.text.SimpleDateFormat;
@@ -57,6 +59,7 @@ public class DummyMeetingApiService implements MeetingApiService {
         for(Meeting meeting : mMeetings)
         {
             meeting_date =  sdf.format(meeting.getStartDate());
+           /// if(DateUtils.)
             if( meeting_date.compareTo(filterDate)==0)
             {
 
