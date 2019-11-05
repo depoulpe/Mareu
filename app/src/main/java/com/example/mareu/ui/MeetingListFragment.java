@@ -156,6 +156,7 @@ public class MeetingListFragment extends Fragment {
      */
     public void filterByDate(int year, int monthOfYear, int dayOfMonth) {
         mMeetings = mApiService.getMeetingsFilteredByDate(new Date(year,monthOfYear,dayOfMonth));
+        mAdapter.filterList(this.mMeetings );
     }
 
     /**

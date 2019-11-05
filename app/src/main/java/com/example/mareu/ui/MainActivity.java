@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MeetingListFragme
                     public void ready(int n) {
 
                         String room="Salle 1";
-                        meetingListFragment.filterByRoom(room);
+                        meetingListFragment.filterByRoom("Salle "+(n+1));
                     }
 
                 });
@@ -113,11 +113,7 @@ public class MainActivity extends AppCompatActivity implements MeetingListFragme
                 break;
         }
 
-      /*  ArrayList<String> mTimers =  mMeetingApiService.getMeetingsRoom//getResources().getStringArray(R.array.my_array);
-        mTimers.set(0, "By Zip");
-
-
-        if(meetingListFragment.sortBy(item.getItemId()))
+      /*    if(meetingListFragment.sortBy(item.getItemId()))
             return true;
 */
         return super.onOptionsItemSelected(item);
