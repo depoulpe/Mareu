@@ -1,4 +1,4 @@
-package com.example.mareu.ui.adapters;
+package com.openclassroom.mareu.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mareu.R;
-import com.example.mareu.model.Meeting;
-import com.example.mareu.ui.fragments.MeetingListFragment;
+import com.openclassroom.mareu.R;
+import com.openclassroom.mareu.model.Meeting;
+import com.openclassroom.mareu.ui.fragments.MeetingListFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

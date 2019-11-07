@@ -1,8 +1,6 @@
-package com.example.mareu.service;
+package com.openclassroom.mareu.service;
 
-import android.text.format.DateUtils;
-
-import com.example.mareu.model.Meeting;
+import com.openclassroom.mareu.model.Meeting;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

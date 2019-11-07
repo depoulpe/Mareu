@@ -1,4 +1,4 @@
-package com.example.mareu.ui;
+package com.openclassroom.mareu.ui.fragments;
 
 
 import android.app.Activity;
@@ -13,10 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mareu.R;
-import com.example.mareu.di.DI;
-import com.example.mareu.model.Meeting;
-import com.example.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.R;
+import com.openclassroom.mareu.di.DI;
+import com.openclassroom.mareu.model.Meeting;
+import com.openclassroom.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.ui.adapters.MeetingListRecyclerViewAdapter;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,8 @@ public class MeetingListFragment extends Fragment {
     private MeetingApiService mApiService;
     MeetingListCallback meetingListCallback;
 
-
+    public void filterByRooms(boolean[] checkedItems) {
+    }
 
 
     public interface MeetingListCallback{
@@ -62,7 +64,7 @@ public class MeetingListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_meeting_list, container, false);
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.fragment_meeting_recycler_view);
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.meetings_list);
         this.initMeetingList();
         this.configureRecyclerView();
 
@@ -144,7 +146,7 @@ public class MeetingListFragment extends Fragment {
     }
 
     public void addMeeting(final Meeting meeting) {
-        mApiService.addMeeting(meeting);
+    /*    mApiService.addMeeting(meeting);*/
         mAdapter.notifyDataSetChanged();
     }
 
@@ -171,8 +173,13 @@ public class MeetingListFragment extends Fragment {
      * Filter meetings by room
      * @param room
      */
-    public void filterByRoom(String room) {
+    public void filterByRoom(int room) {
         this.mMeetings = mApiService.getMeetingsFilteredByRoom(room);
         mAdapter.filterList(this.mMeetings );
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 }

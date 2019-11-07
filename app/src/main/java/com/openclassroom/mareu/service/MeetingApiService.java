@@ -1,6 +1,6 @@
-package com.example.mareu.service;
+package com.openclassroom.mareu.service;
 
-import com.example.mareu.model.Meeting;
+import com.openclassroom.mareu.model.Meeting;
 
 import java.util.Date;
 import java.util.List;

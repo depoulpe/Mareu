@@ -1,8 +1,7 @@
-package com.example.mareu.service;
+package com.openclassroom.mareu.service;
 
-import com.example.mareu.model.Meeting;
+import com.openclassroom.mareu.model.Meeting;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,7 +17,7 @@ public abstract class DummyMeetingGenerator {
     };
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting("Réunion A",new Date(2019,10,22,8,15),new Date(2019,10,22,8,35),0,participants),
+            new Meeting("Soutenance P4",new Date(2019,10,13,13,00),new Date(2019,10,13,13,35),0,participants),
             new Meeting("Réunion B",new Date(2019,10,23,8,15),new Date(2019,10,23,8,55),1,participants),
             new Meeting("Réunion C",new Date(2019,10,23,14,00),new Date(2019,10,23,15,35),2,participants),
             new Meeting("Réunion D",new Date(2019,10,24,10,00),new Date(2019,10,24,10,55),0,participants)

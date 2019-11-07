@@ -1,4 +1,4 @@
-package com.example.mareu.ui;
+package com.openclassroom.mareu.ui.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.example.mareu.R;
-import com.example.mareu.di.DI;
-import com.example.mareu.model.Meeting;
-import com.example.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.R;
+import com.openclassroom.mareu.di.DI;
+import com.openclassroom.mareu.model.Meeting;
+import com.openclassroom.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.ui.adapters.ParticipantRecyclerViewAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.openclassroom.mareu.utils.Utils.emailValidator;
 
 
 public class MeetingFragment extends Fragment{
@@ -37,6 +43,12 @@ public class MeetingFragment extends Fragment{
     private TextView mEditStartDate;
     private TextView mEditStartTime;
     private TextView mEditEndTime;
+    private Button mSaveButton;
+    private Button mAddParticipantButton;
+    private Spinner mSpinner;
+    private EditText mTopic;
+    private EditText mGuestEmail;
+
     private Date date;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private SimpleDateFormat mDateFormat;
@@ -58,34 +70,38 @@ public class MeetingFragment extends Fragment{
         // Required empty public constructor
     }
 
+    public static Fragment newInstance(){
+        MeetingFragment fragment=new MeetingFragment();
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_meeting, container, false);
-        mParticipantRecyclerView=(RecyclerView)view.findViewById(R.id.fragment_meeting_recycler_view);
+        mParticipantRecyclerView=(RecyclerView)view.findViewById(R.id.meetings_list);
         mMeetingApiService = DI.getMeetingApiService();
         mParticipants = new ArrayList<String>();
 
         configureRecyclerView();
         initCalendars();
-        initMeeting(view);
-        initRooms(view);
-
-
+        initUI(view);
         return view;
     }
 
-    private void initRooms(View view) {
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.rooms_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = context instanceof Activity ? (Activity) context : null;
+        if (activity instanceof MeetingFragment.MeetingCallback)
+            meetingCallback = (MeetingFragment.MeetingCallback) activity;
+    }
 
+    private void configureRecyclerView() {
+        this.mParticipantAdapter = new ParticipantRecyclerViewAdapter(this.mParticipants);
+        this.mParticipantRecyclerView.setAdapter(this.mParticipantAdapter);
+        this.mParticipantRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     /**
@@ -110,9 +126,48 @@ public class MeetingFragment extends Fragment{
         mDateFormat = new SimpleDateFormat((String) getText(R.string.date_format));
         mTimeFormat = new SimpleDateFormat("HH:mm");
     }
-
-    private void initMeeting(final View view) {
+    /**
+     * Ui part
+     */
+    private void initUI(View view) {
         mEditStartDate = (TextView) view.findViewById(R.id.startDate);
+        mEditStartTime = (TextView) view.findViewById(R.id.startTime);
+        mEditEndTime = (TextView) view.findViewById(R.id.endTime);
+        mSaveButton = (Button) view.findViewById(R.id.save_button);
+        mSpinner = (Spinner) view.findViewById(R.id.spinner);
+        mTopic = ((EditText)view.findViewById(R.id.topic));
+        mAddParticipantButton = (Button) view.findViewById(R.id.add_participant_button);
+        mGuestEmail = ((EditText) view.findViewById(R.id.participant));
+        initTopic();
+        initStartDate();
+        initEndDate();
+        initRooms();
+        initParticipants();
+        initSaveButton();
+    }
+
+
+    private void initTopic() {
+        mTopic.addTextChangedListener(new TextWatcher() {
+                                          @Override
+                                          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                          }
+
+                                          @Override
+                                          public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                          }
+
+                                          @Override
+                                          public void afterTextChanged(Editable s) {
+                                              enableSaveButton();
+                                          }
+                                      }
+        );
+    }
+
+    private void initStartDate() {
         mEditStartDate.setText(mDateFormat.format(mCalendarStart.getTime()));
         mEditStartDate.setClickable(true);
         mEditStartDate.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +187,6 @@ public class MeetingFragment extends Fragment{
             }
         });
 
-        mEditStartTime = (TextView) view.findViewById(R.id.startTime);
         mEditStartTime.setText(mTimeFormat.format(mCalendarStart.getTime()));
         mEditStartTime.setClickable(true);
         mEditStartTime.setOnClickListener(new View.OnClickListener() {
@@ -164,8 +218,9 @@ public class MeetingFragment extends Fragment{
                 timePickerDialog.show();
             }
         });
+    }
 
-        mEditEndTime = (TextView) view.findViewById(R.id.endTime);
+    private void initEndDate() {
         mEditEndTime.setText(mTimeFormat.format(mCalendarEnd.getTime()));
         mEditEndTime.setClickable(true);
         mEditEndTime.setOnClickListener(new View.OnClickListener() {
@@ -192,50 +247,65 @@ public class MeetingFragment extends Fragment{
                 timePickerDialog.show();
             }
         });
+    }
 
-        Button saveButton = (Button) view.findViewById(R.id.save_button);
-        final Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        //   mSaveButton.setEnabled(false);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+    private void initRooms() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.rooms_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        mSpinner.setAdapter(adapter);
+    }
+
+
+    private void initParticipants() {
+
+        mAddParticipantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String topic= ((EditText)view.findViewById(R.id.topic)).getText().toString();
-                String guests =((EditText)view.findViewById(R.id.participant)).getText().toString();
-                Meeting meeting = new Meeting(topic,mCalendarStart.getTime(),mCalendarEnd.getTime(),spinner.getSelectedItem().toString(),mParticipantAdapter.getParticipants());
+
+                if(emailValidator(mGuestEmail.getText().toString())) {
+                    mParticipants.add(mGuestEmail.getText().toString());
+                    if (mParticipantAdapter != null)
+                        mParticipantAdapter.notifyDataSetChanged();
+                    mGuestEmail.setText("");
+                    enableSaveButton();
+                }
+                else
+                {
+                    Toast.makeText(getContext(),  "email is not valid", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void initSaveButton() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String topic= mTopic.getText().toString();
+                Meeting meeting = new Meeting(topic,mCalendarStart.getTime(),mCalendarEnd.getTime(),mSpinner.getSelectedItemPosition(),mParticipantAdapter.getParticipants());
 
                 mMeetingApiService.addMeeting(meeting);
-                getActivity().finish();
+                if(meetingCallback!=null)
+                    meetingCallback.onAddMeeting(meeting);
+              //  onAddMeeting(meeting);
+                //if not tablet
+                MeetingListFragment meetingListFragment = (MeetingListFragment) getFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+
+                if (meetingListFragment == null) {
+                    getActivity().finish();
+                }
             }
         });
-
-        /**
-         *
-         */
-
-        Button addParticipantButton = (Button) view.findViewById(R.id.add_participant_button);
-        addParticipantButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText email = ((EditText) view.findViewById(R.id.participant));
-                mParticipants.add(email.getText().toString());
-                if(mParticipantAdapter!=null)
-                    mParticipantAdapter.notifyDataSetChanged();
-                email.setText("");
-            }
-        });
-
-    }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity = context instanceof Activity ? (Activity) context : null;
-        if (activity instanceof MeetingFragment.MeetingCallback)
-            meetingCallback = (MeetingFragment.MeetingCallback) activity;
+        enableSaveButton();
     }
 
-    private void configureRecyclerView() {
-        this.mParticipantAdapter = new ParticipantRecyclerViewAdapter(this.mParticipants);
-        this.mParticipantRecyclerView.setAdapter(this.mParticipantAdapter);
-        this.mParticipantRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void enableSaveButton() {
+        if((mTopic.getText().length()>2)&&(mParticipantRecyclerView.getAdapter().getItemCount()>0))
+            mSaveButton.setEnabled(true);
+        else
+            mSaveButton.setEnabled(false);
     }
 }

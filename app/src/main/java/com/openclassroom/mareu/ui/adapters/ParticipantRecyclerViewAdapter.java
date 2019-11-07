@@ -1,4 +1,4 @@
-package com.example.mareu.ui.adapters;
+package com.openclassroom.mareu.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.mareu.R;
+import com.openclassroom.mareu.R;
 
 import java.util.List;
 

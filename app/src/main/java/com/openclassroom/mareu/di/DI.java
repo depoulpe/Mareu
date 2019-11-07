@@ -1,7 +1,7 @@
-package com.example.mareu.di;
+package com.openclassroom.mareu.di;
 
-import com.example.mareu.service.DummyMeetingApiService;
-import com.example.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.service.DummyMeetingApiService;
+import com.openclassroom.mareu.service.MeetingApiService;
 
 public class DI {
     private static MeetingApiService service = new DummyMeetingApiService();

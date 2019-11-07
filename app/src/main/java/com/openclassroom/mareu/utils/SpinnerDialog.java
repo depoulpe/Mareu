@@ -1,4 +1,4 @@
-package com.example.mareu.utils;
+package com.openclassroom.mareu.utils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.mareu.R;
+import com.openclassroom.mareu.R;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
-package com.example.mareu.model;
+package com.openclassroom.mareu.model;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
