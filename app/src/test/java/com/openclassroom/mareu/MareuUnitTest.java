@@ -1,12 +1,11 @@
-package com.example.mareu;
+package com.openclassroom.mareu;
 
-import com.example.mareu.di.DI;
-import com.example.mareu.model.Meeting;
-import com.example.mareu.service.DummyMeetingGenerator;
-import com.example.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.di.DI;
+import com.openclassroom.mareu.model.Meeting;
+import com.openclassroom.mareu.service.DummyMeetingGenerator;
+import com.openclassroom.mareu.service.MeetingApiService;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,7 @@ import static org.junit.Assert.*;
  * Unit test on Meeting service
  */
 @RunWith(JUnit4.class)
-public class    ExampleUnitTest {
+public class MareuUnitTest {
     private  MeetingApiService service;
    // private  List<Meeting> meetings;
     public List<String> participants = new ArrayList<String>() {
@@ -34,9 +33,9 @@ public class    ExampleUnitTest {
         }
     };
     List <Meeting> meetings = Arrays.asList(
-            new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),"Salle 1",participants),
-            new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Salle 2",participants),
-            new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Salle 1",participants)
+            new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),1,participants),
+            new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),2,participants),
+            new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),1,participants)
     );
     @Before
     public void setup() {
@@ -51,7 +50,7 @@ public class    ExampleUnitTest {
     }
     @Test
     public void addMeetingWithSuccess() {
-        Meeting meeting=new Meeting("Reunion de test",new Date(System.currentTimeMillis()),new Date(System.currentTimeMillis() + 3600 * 1000),"Salle 1",participants);
+        Meeting meeting=new Meeting("Reunion de test",new Date(System.currentTimeMillis()),new Date(System.currentTimeMillis() + 3600 * 1000),1,participants);
         service.addMeeting(meeting);
         assert(service.getMeetings().contains(meeting));
     }
@@ -76,18 +75,18 @@ public class    ExampleUnitTest {
     @Test
     public void filterMeetingByRoomWithSuccess(){
         List <Meeting> meetings = Arrays.asList(
-                new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),"Salle 1",participants),
-                new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Salle 2",participants),
-                new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Salle 1",participants)
+                new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),0,participants),
+                new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),2,participants),
+                new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),0,participants)
         );
 
 
-        String room ="Salle 1";
+        int room =0;
         List<Meeting>filteredMeeting = service.getMeetingsFilteredByRoom(room);
         // check if meetings only contains required room
         for (Meeting meeting : filteredMeeting)
         {
-            assertTrue(meeting.getRoom().contains("Salle 1"));
+            assertTrue(meeting.getRoom()==0);
         }
 
     }
