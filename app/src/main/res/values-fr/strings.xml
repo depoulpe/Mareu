@@ -27,4 +27,10 @@
     <string name="apply">Appliquer</string>
     <string name="filter_by_date">Filrer par date</string>
     <string name="select_option">Please select an option"</string>
+    <string name="choose_room">Choose room</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+    <string name="set_date">Set date</string>
+    <string name="set_time">Set Time</string>
 </resources>
