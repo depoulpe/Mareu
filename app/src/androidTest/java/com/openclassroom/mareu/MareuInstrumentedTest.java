@@ -85,44 +85,6 @@ public class MareuInstrumentedTest {
                 .check(matches(hasMinimumChildCount(1)));
     }
     /**
-     * When we add an item, the item is shown
-     */
-    @Test
-    public void meetingList_addAction_shouldAddItem() {
-        // Given Meeting list with 4 elements
-        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(ITEMS_COUNT));
-
-        // When add a new meeting
-        onView(ViewMatchers.withId(R.id.fab)).perform(click());
-        onView(ViewMatchers.withId(R.id.topic)).perform(replaceText("Soutenance p4"), closeSoftKeyboard());
-        onView(ViewMatchers.withId(R.id.participant)).perform(replaceText("gilles@lamezone.com"), closeSoftKeyboard());
-        onView(ViewMatchers.withId(R.id.add_participant_button)).perform(click());
-        onView(ViewMatchers.withId(R.id.action_save)).perform(click());
-
-        // Then : the number of element is 5
-        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(ITEMS_COUNT+1));
-    }
-
-    /**
-     * When we delete an item, the item is no more shown
-     */
-    @Test
-    public void meetingList_deleteAction_shouldRemoveItem() {
-        RecyclerView recyclerView = mActivity.findViewById(R.id.meetings_list);
-        int itemCount = recyclerView.getAdapter().getItemCount();
-
-        // Given : We remove the element at position 2
-        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(itemCount));
-        // When perform a click on a delete icon
-        onView(ViewMatchers.withId(R.id.meetings_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
-        // confirm neighbour delete
-        onView(withText("Yes")).perform(click());
-        // Then : the number of element is 3
-        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(itemCount-1));
-    }
-
-    /**
      * When filter by 13/11/2019 only one meeting
      */
     @Test
@@ -148,7 +110,7 @@ public class MareuInstrumentedTest {
                                 3)));
         appCompatButton.perform(scrollTo(), click());
         onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(1));
-     }
+    }
 
     /**
      *
@@ -185,24 +147,61 @@ public class MareuInstrumentedTest {
                                 0),
                         isDisplayed()));
         ViewInteraction textView = onView(
-                allOf(withId(R.id.item_meeting_subject), withText("Soutenance P4 -  11/13 13:00 - Room 1"),
+                allOf(withId(R.id.item_meeting_date), withText(" -  11/13 13:00 - Room 1"),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         1),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("Soutenance P4 -  11/13 13:00 - Room 1")));
+        textView.check(matches(withText(" -  11/13 13:00 - Room 1")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.item_meeting_subject), withText("Réunion D -  11/24 10:00 - Room 1"),
+                allOf(withId(R.id.item_meeting_date), withText(" -  11/24 10:00 - Room 1"),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         1),
                                 0),
                         isDisplayed()));
-        textView2.check(matches(withText("Réunion D -  11/24 10:00 - Room 1")));
+        textView2.check(matches(withText(" -  11/24 10:00 - Room 1")));
+    }
+    /**
+     * When we add an item, the item is shown
+     */
+    @Test
+    public void meetingList_addAction_shouldAddItem() {
+        // Given Meeting list with 4 elements
+        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(ITEMS_COUNT));
+
+        // When add a new meeting
+        onView(ViewMatchers.withId(R.id.fab)).perform(click());
+        onView(ViewMatchers.withId(R.id.topic)).perform(replaceText("Soutenance p4"), closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.participant)).perform(replaceText("gilles@lamezone.com"), closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.add_participant_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.action_save)).perform(click());
+
+        // Then : the number of element is 5
+        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(ITEMS_COUNT+1));
+    }
+
+    /**
+     * When we delete an item, the item is no more shown
+     */
+    @Test
+    public void meetingList_deleteAction_shouldRemoveItem() {
+        RecyclerView recyclerView = mActivity.findViewById(R.id.meetings_list);
+        int itemCount = recyclerView.getAdapter().getItemCount();
+
+        // Given : We remove the element at position 2
+        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(itemCount));
+        // When perform a click on a delete icon
+        onView(ViewMatchers.withId(R.id.meetings_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
+        // confirm neighbour delete
+        onView(withText("Yes")).perform(click());
+        // Then : the number of element is 3
+        onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(itemCount-1));
     }
 
     private static Matcher<View> childAtPosition(
