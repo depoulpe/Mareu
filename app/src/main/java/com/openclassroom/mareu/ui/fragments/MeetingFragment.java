@@ -139,7 +139,7 @@ public class MeetingFragment extends DialogFragment{
                 }
             }
         });
-        mToolbar.setTitle(R.string.add_guest);
+        mToolbar.setTitle(R.string.add_meeting);
         mToolbar.setOnMenuItemClickListener(
                 new Toolbar.OnMenuItemClickListener() {
                     @Override
