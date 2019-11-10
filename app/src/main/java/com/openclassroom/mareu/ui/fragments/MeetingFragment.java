@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.view.Window.FEATURE_NO_TITLE;
 import static com.openclassroom.mareu.utils.Utils.emailValidator;
-
 
 public class MeetingFragment extends DialogFragment{
     private TextView mEditStartDate;
@@ -119,6 +119,7 @@ public class MeetingFragment extends DialogFragment{
     }
 
     private void initToolbar() {
+        getDialog().getWindow().requestFeature(FEATURE_NO_TITLE);
         // inflate menu
         mToolbar.inflateMenu(R.menu.meeting_menu);
         mToolbar.setNavigationIcon(R.drawable.ic_close_24);
