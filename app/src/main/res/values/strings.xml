@@ -25,6 +25,11 @@
     <string name="apply">apply</string>
     <string name="choose_room">Choose room</string>
     <string name="ok">OK</string>
+    <string name="no_title">(No title)</string>
+    <string name="end_time">Heure fin</string>
+    <string name="start_time">Heure début</string>
+    <string name="topic">Topic</string>
+    <string name="invalid_email">email is not valid</string>
     <string-array name="rooms_array">
         <item>Room 1</item>
         <item>Room 2</item>
