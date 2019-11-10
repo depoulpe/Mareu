@@ -30,6 +30,7 @@
     <string name="start_time">Heure début</string>
     <string name="topic">Topic</string>
     <string name="invalid_email">email is not valid</string>
+    <string name="add_meeting">Add new meeting</string>
     <string-array name="rooms_array">
         <item>Room 1</item>
         <item>Room 2</item>
