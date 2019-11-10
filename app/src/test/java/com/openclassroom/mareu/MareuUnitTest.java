@@ -4,6 +4,8 @@ import com.openclassroom.mareu.di.DI;
 import com.openclassroom.mareu.model.Meeting;
 import com.openclassroom.mareu.service.DummyMeetingGenerator;
 import com.openclassroom.mareu.service.MeetingApiService;
+import com.openclassroom.mareu.utils.Utils;
+
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 
 import org.junit.Before;
@@ -33,9 +35,9 @@ public class MareuUnitTest {
         }
     };
     List <Meeting> meetings = Arrays.asList(
-            new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),1,participants),
-            new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),2,participants),
-            new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),1,participants)
+            new Meeting("M1",Utils.getDate(2019,10,22,8,15),Utils.getDate(2019,10,22,9,00),1,participants),
+            new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),2,participants),
+            new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),1,participants)
     );
     @Before
     public void setup() {
@@ -50,7 +52,7 @@ public class MareuUnitTest {
     }
     @Test
     public void addMeetingWithSuccess() {
-        Meeting meeting=new Meeting("Reunion de test",new Date(System.currentTimeMillis()),new Date(System.currentTimeMillis() + 3600 * 1000),1,participants);
+        Meeting meeting=new Meeting("Reunion de test",Utils.getDate(2019,10,13,13,00),Utils.getDate(2019,10,13,13,30),1,participants);
         service.addMeeting(meeting);
         assert(service.getMeetings().contains(meeting));
     }
@@ -66,7 +68,7 @@ public class MareuUnitTest {
     public void filterMeetingByDateWithSuccess(){
 
 
-        Date date = new Date(2019,10,23,00,00);
+        Date date = Utils.getDate(2019,10,23,00,00);
         List<Meeting>filteredMeeting = service.getMeetingsFilteredByDate(date);
         // check if meetings only contains required date
 
@@ -75,9 +77,9 @@ public class MareuUnitTest {
     @Test
     public void filterMeetingByRoomWithSuccess(){
         List <Meeting> meetings = Arrays.asList(
-                new Meeting("M1",new Date(2019,10,22,8,15),new Date(2019,10,22,9,00),0,participants),
-                new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),2,participants),
-                new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),0,participants)
+                new Meeting("M1",Utils.getDate(2019,10,22,8,15),Utils.getDate(2019,10,22,9,00),0,participants),
+                new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),2,participants),
+                new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),0,participants)
         );
 
 
@@ -93,15 +95,15 @@ public class MareuUnitTest {
     /**
 public void sortMeetingByDateWithSuccess(){
     List <Meeting> meetings = Arrays.asList(
-            new Meeting("M1",new Date(2019,10,23,8,15),new Date(2019,10,23,9,00),"Mario","part1@lamzone.com"),
-            new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Peach","part1@lamzone.com"),
-            new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Bowser","part1@lamzone.com")
+            new Meeting("M1",Utils.getDate(2019,10,23,8,15),Utils.getDate(2019,10,23,9,00),"Mario","part1@lamzone.com"),
+            new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),"Peach","part1@lamzone.com"),
+            new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),"Bowser","part1@lamzone.com")
     );
     List<Meeting>sorted = service.getMeetingsOrderByDate(meetings);
     List<Meeting>expected = Arrays.asList(
-            new Meeting("M1",new Date(2019,10,23,8,15),new Date(2019,10,23,9,00),"Mario","part1@lamzone.com"),
-            new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Peach","part1@lamzone.com"),
-            new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Bowser","part1@lamzone.com")
+            new Meeting("M1",Utils.getDate(2019,10,23,8,15),Utils.getDate(2019,10,23,9,00),"Mario","part1@lamzone.com"),
+            new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),"Peach","part1@lamzone.com"),
+            new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),"Bowser","part1@lamzone.com")
     );
 
     //   assertTrue(sorted.equals(expected));
@@ -111,15 +113,15 @@ public void sortMeetingByDateWithSuccess(){
 }
     public void sortMeetingByRoomWithSuccess(){
         List <Meeting> meetings = Arrays.asList(
-                new Meeting("M1",new Date(2019,10,23,8,15),new Date(2019,10,23,9,00),"Mario","part1@lamzone.com"),
-                new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Peach","part1@lamzone.com"),
-                new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Bowser","part1@lamzone.com")
+                new Meeting("M1",Utils.getDate(2019,10,23,8,15),Utils.getDate(2019,10,23,9,00),"Mario","part1@lamzone.com"),
+                new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),"Peach","part1@lamzone.com"),
+                new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),"Bowser","part1@lamzone.com")
         );
         List<Meeting>sorted = service.getMeetingsOrderByRoom(meetings);
         List<Meeting>expected = Arrays.asList(
-                new Meeting("M3",new Date(2019,10,23,10,15),new Date(2019,10,23,11,00),"Bowser","part1@lamzone.com"),
-                new Meeting("M1",new Date(2019,10,23,8,15),new Date(2019,10,23,9,00),"Mario","part1@lamzone.com"),
-                new Meeting("M2",new Date(2019,10,23,9,15),new Date(2019,10,23,10,00),"Peach","part1@lamzone.com")
+                new Meeting("M3",Utils.getDate(2019,10,23,10,15),Utils.getDate(2019,10,23,11,00),"Bowser","part1@lamzone.com"),
+                new Meeting("M1",Utils.getDate(2019,10,23,8,15),Utils.getDate(2019,10,23,9,00),"Mario","part1@lamzone.com"),
+                new Meeting("M2",Utils.getDate(2019,10,23,9,15),Utils.getDate(2019,10,23,10,00),"Peach","part1@lamzone.com")
 
         );
         assertArrayEquals(sorted.toArray(), expected.toArray());

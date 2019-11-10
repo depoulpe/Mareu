@@ -1,11 +1,9 @@
 package com.openclassroom.mareu;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.PickerActions;
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -16,9 +14,6 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.DatePicker;
 
-import com.openclassroom.mareu.model.Meeting;
-import com.openclassroom.mareu.service.DummyMeetingApiService;
-import com.openclassroom.mareu.service.MeetingApiService;
 import com.openclassroom.mareu.ui.MainActivity;
 import com.openclassroom.mareu.utils.DeleteViewAction;
 
@@ -32,10 +27,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -45,7 +36,6 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -107,7 +97,7 @@ public class MareuInstrumentedTest {
         onView(ViewMatchers.withId(R.id.topic)).perform(replaceText("Soutenance p4"), closeSoftKeyboard());
         onView(ViewMatchers.withId(R.id.participant)).perform(replaceText("gilles@lamezone.com"), closeSoftKeyboard());
         onView(ViewMatchers.withId(R.id.add_participant_button)).perform(click());
-        onView(ViewMatchers.withId(R.id.save_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.action_save)).perform(click());
 
         // Then : the number of element is 5
         onView(ViewMatchers.withId(R.id.meetings_list)).check(withItemCount(ITEMS_COUNT+1));

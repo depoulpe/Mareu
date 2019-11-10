@@ -12,7 +12,7 @@ public class Meeting {
     private int mRoom;
 
     /** Meeting date */
-    private Date startDate;
+    private Date mDate;
 
     /** Meeting duration */
     private Date endDate;
@@ -31,7 +31,7 @@ public class Meeting {
      */
     public Meeting(String mTopic, Date startDate, Date endDate, int room,List<String> participants){
         this.mRoom=room;
-        this.startDate=startDate;
+        this.mDate=startDate;
         this.endDate=endDate;
         this.mTopic = mTopic;
         setParticipants(participants);
@@ -54,12 +54,10 @@ public class Meeting {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return mDate;
     }
 
-    public void setStart_date(Date start_date) {
-        this.startDate = startDate;
-    }
+    public void setStart_date(Date start_date) {mDate=start_date;}
 
     public Date getEndDate() {
         return endDate;

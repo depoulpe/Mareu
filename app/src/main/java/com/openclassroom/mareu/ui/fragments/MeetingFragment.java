@@ -1,16 +1,14 @@
 package com.openclassroom.mareu.ui.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -27,59 +25,42 @@ import com.openclassroom.mareu.di.DI;
 import com.openclassroom.mareu.model.Meeting;
 import com.openclassroom.mareu.service.MeetingApiService;
 import com.openclassroom.mareu.ui.adapters.ParticipantRecyclerViewAdapter;
+import com.openclassroom.mareu.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.openclassroom.mareu.utils.Utils.emailValidator;
 
 
-public class MeetingFragment extends Fragment{
-
-    //    private OnFragmentInteractionListener mListener;
+public class MeetingFragment extends DialogFragment{
     private TextView mEditStartDate;
     private TextView mEditStartTime;
     private TextView mEditEndTime;
-    private Button mSaveButton;
     private Button mAddParticipantButton;
     private Spinner mSpinner;
     private EditText mTopic;
     private EditText mGuestEmail;
+    private Toolbar mToolbar;
 
-    private Date date;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private SimpleDateFormat mDateFormat;
     private SimpleDateFormat mTimeFormat;
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
     private MeetingApiService mMeetingApiService;
-
-    MeetingCallback meetingCallback;
     private ParticipantRecyclerViewAdapter mParticipantAdapter;
     private RecyclerView mParticipantRecyclerView;
     private List<String> mParticipants;
-
-    public interface MeetingCallback{
-        void onAddMeeting(Meeting meeting);
-    }
-
-    public MeetingFragment() {
-        // Required empty public constructor
-    }
-
-    public static Fragment newInstance(){
-        MeetingFragment fragment=new MeetingFragment();
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_meeting, container, false);
+        View view = inflater.inflate(R.layout.fragment_meeting_add, container, false);
+
         mParticipantRecyclerView=(RecyclerView)view.findViewById(R.id.meetings_list);
         mMeetingApiService = DI.getMeetingApiService();
         mParticipants = new ArrayList<String>();
@@ -89,15 +70,6 @@ public class MeetingFragment extends Fragment{
         initUI(view);
         return view;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity = context instanceof Activity ? (Activity) context : null;
-        if (activity instanceof MeetingFragment.MeetingCallback)
-            meetingCallback = (MeetingFragment.MeetingCallback) activity;
-    }
-
     private void configureRecyclerView() {
         this.mParticipantAdapter = new ParticipantRecyclerViewAdapter(this.mParticipants);
         this.mParticipantRecyclerView.setAdapter(this.mParticipantAdapter);
@@ -121,8 +93,6 @@ public class MeetingFragment extends Fragment{
         mDay = mCalendarStart.get(mCalendarStart.DAY_OF_MONTH);
         mHour = mCalendarStart.get(mCalendarStart.HOUR);
         mMinute = mCalendarStart.get(mCalendarStart.MINUTE);
-
-
         mDateFormat = new SimpleDateFormat((String) getText(R.string.date_format));
         mTimeFormat = new SimpleDateFormat("HH:mm");
     }
@@ -133,40 +103,66 @@ public class MeetingFragment extends Fragment{
         mEditStartDate = (TextView) view.findViewById(R.id.startDate);
         mEditStartTime = (TextView) view.findViewById(R.id.startTime);
         mEditEndTime = (TextView) view.findViewById(R.id.endTime);
-        mSaveButton = (Button) view.findViewById(R.id.save_button);
         mSpinner = (Spinner) view.findViewById(R.id.spinner);
         mTopic = ((EditText)view.findViewById(R.id.topic));
         mAddParticipantButton = (Button) view.findViewById(R.id.add_participant_button);
         mGuestEmail = ((EditText) view.findViewById(R.id.participant));
-        initTopic();
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
+
+        initToolbar();
+        mTopic.setText("");
         initStartDate();
         initEndDate();
         initRooms();
         initParticipants();
-        initSaveButton();
     }
 
+    private void initToolbar() {
+        // inflate menu
+        mToolbar.inflateMenu(R.menu.meeting_menu);
+        mToolbar.setNavigationIcon(R.drawable.ic_close_24);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MeetingListFragment meetingListFragment = (MeetingListFragment) getFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+                if (meetingListFragment == null) {
+                    getActivity().finish();
+                }
+                else
+                {
+                    dismiss();
+                }
+            }
+        });
+        mToolbar.setTitle(R.string.add_guest);
+        mToolbar.setOnMenuItemClickListener(
+                new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId()==R.id.action_save) {
 
-    private void initTopic() {
-        mTopic.addTextChangedListener(new TextWatcher() {
-                                          @Override
-                                          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            String topic= mTopic.getText().toString();
+                            if(topic.length()==0)
+                                topic=getText(R.string.no_title).toString();
+                            Meeting meeting = new Meeting(topic,mCalendarStart.getTime(),mCalendarEnd.getTime(),mSpinner.getSelectedItemPosition(),mParticipantAdapter.getParticipants());
+                            mMeetingApiService.addMeeting(meeting);
 
-                                          }
+                            //if not tablet
+                            MeetingListFragment meetingListFragment = (MeetingListFragment) getFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
 
-                                          @Override
-                                          public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                                          }
-
-                                          @Override
-                                          public void afterTextChanged(Editable s) {
-                                              enableSaveButton();
-                                          }
-                                      }
-        );
+                            if (meetingListFragment == null) {
+                                getActivity().finish();
+                            }
+                            else
+                            {
+                                dismiss();
+                            }
+                        }
+                        return true;
+                    }
+                });
     }
-
     private void initStartDate() {
         mEditStartDate.setText(mDateFormat.format(mCalendarStart.getTime()));
         mEditStartDate.setClickable(true);
@@ -205,14 +201,11 @@ public class MeetingFragment extends Fragment{
                              */
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                                mCalendarStart.set(mYear, mMonth, mDay, hourOfDay, minute);
-                                mEditStartTime.setText(mTimeFormat.format(mCalendarStart.getTime()));
+                                mEditStartTime.setText(mTimeFormat.format(Utils.getDate(mYear, mMonth, mDay, hourOfDay, minute)));
                                 /**
                                  * Set meeting end to start time  +1 hour
                                  */
-                                mCalendarEnd.set(mYear, mMonth, mDay, hourOfDay+1, minute);
-                                mEditEndTime.setText(mTimeFormat.format(mCalendarEnd.getTime()));
+                                mEditEndTime.setText(mTimeFormat.format(Utils.getDate(mYear, mMonth, mDay, hourOfDay+1, minute)));
                             }
                         }, mHour, 0, true);
                 timePickerDialog.show();
@@ -239,9 +232,7 @@ public class MeetingFragment extends Fragment{
                              */
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                                mCalendarEnd.set(mYear, mMonth, mDay, hourOfDay, minute);
-                                mEditEndTime.setText(mTimeFormat.format(mCalendarEnd.getTime()));
+                                mEditEndTime.setText(mTimeFormat.format(Utils.getDate(mYear, mMonth, mDay, hourOfDay, minute)));
                             }
                         }, mHour+1, 0, true);
                 timePickerDialog.show();
@@ -258,54 +249,21 @@ public class MeetingFragment extends Fragment{
         mSpinner.setAdapter(adapter);
     }
 
-
     private void initParticipants() {
-
         mAddParticipantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(emailValidator(mGuestEmail.getText().toString())) {
                     mParticipants.add(mGuestEmail.getText().toString());
                     if (mParticipantAdapter != null)
                         mParticipantAdapter.notifyDataSetChanged();
                     mGuestEmail.setText("");
-                    enableSaveButton();
                 }
                 else
                 {
-                    Toast.makeText(getContext(),  "email is not valid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),  getText(R.string.invalid_email).toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private void initSaveButton() {
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String topic= mTopic.getText().toString();
-                Meeting meeting = new Meeting(topic,mCalendarStart.getTime(),mCalendarEnd.getTime(),mSpinner.getSelectedItemPosition(),mParticipantAdapter.getParticipants());
-
-                mMeetingApiService.addMeeting(meeting);
-                if(meetingCallback!=null)
-                    meetingCallback.onAddMeeting(meeting);
-              //  onAddMeeting(meeting);
-                //if not tablet
-                MeetingListFragment meetingListFragment = (MeetingListFragment) getFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-
-                if (meetingListFragment == null) {
-                    getActivity().finish();
-                }
-            }
-        });
-        enableSaveButton();
-    }
-
-    private void enableSaveButton() {
-        if((mTopic.getText().length()>2)&&(mParticipantRecyclerView.getAdapter().getItemCount()>0))
-            mSaveButton.setEnabled(true);
-        else
-            mSaveButton.setEnabled(false);
     }
 }

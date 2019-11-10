@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mareu">
+    package="com.openclassroom.mareu">
 
     <application
         android:allowBackup="true"
@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MeetingActivity"
+            android:name="com.openclassroom.mareu.ui.MeetingActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.openclassroom.mareu.ui.MainActivity"
          >
 
             <intent-filter>

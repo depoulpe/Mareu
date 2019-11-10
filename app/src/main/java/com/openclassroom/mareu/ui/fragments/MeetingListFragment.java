@@ -18,8 +18,8 @@ import com.openclassroom.mareu.di.DI;
 import com.openclassroom.mareu.model.Meeting;
 import com.openclassroom.mareu.service.MeetingApiService;
 import com.openclassroom.mareu.ui.adapters.MeetingListRecyclerViewAdapter;
+import com.openclassroom.mareu.utils.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -33,16 +33,16 @@ public class MeetingListFragment extends Fragment {
     private List<Meeting> mMeetings;
     private MeetingApiService mApiService;
     MeetingListCallback meetingListCallback;
-
+/*
     public void filterByRooms(boolean[] checkedItems) {
     }
-
+*/
 
     public interface MeetingListCallback{
         void onDeleteClicked(Meeting meeting);
         void onItemClicked(Meeting meeting);
     }
-
+/*
     public MeetingListFragment() {
         // Required empty public constructor
     }
@@ -51,7 +51,7 @@ public class MeetingListFragment extends Fragment {
         MeetingListFragment fragment=new MeetingListFragment();
         return fragment;
     }
-
+*/
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -75,15 +75,12 @@ public class MeetingListFragment extends Fragment {
         this.mAdapter = new MeetingListRecyclerViewAdapter(this.mMeetings,this.meetingListCallback);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //this.mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-
-    }
+   }
 
     private void initMeetingList() {
         mMeetings = mApiService.getMeetings();
         if(mAdapter!=null)
             mAdapter.notifyDataSetChanged();
-        //  mAdapter.notifyItemRangeChanged(0,mMeetings.size());
     }
 
     @Override
@@ -122,7 +119,6 @@ public class MeetingListFragment extends Fragment {
 
     public void deleteMeeting(final Meeting meeting) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        // builder.setTitle(R.string.confirm_delete_caption);
         builder.setMessage(R.string.confirm_delete_desc);
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -130,12 +126,10 @@ public class MeetingListFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 mApiService.deleteMeeting(meeting);
                 mAdapter.notifyDataSetChanged();
-
-           //       mAdapter.notifyItemRangeChanged(mAdapter.getAdapterPosition(),mMeetings.size());
             }
         });
 
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -157,7 +151,7 @@ public class MeetingListFragment extends Fragment {
      * @param dayOfMonth
      */
     public void filterByDate(int year, int monthOfYear, int dayOfMonth) {
-        mMeetings = mApiService.getMeetingsFilteredByDate(new Date(year,monthOfYear,dayOfMonth));
+        mMeetings = mApiService.getMeetingsFilteredByDate(Utils.getDate(year,monthOfYear,dayOfMonth,0,0));
         mAdapter.filterList(this.mMeetings );
     }
 
