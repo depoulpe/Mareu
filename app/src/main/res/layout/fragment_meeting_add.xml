@@ -42,7 +42,7 @@
                 android:id="@+id/topic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Topic"
+                android:hint="@string/topic"
                 android:singleLine="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:gravity="right|center_vertical"
-                android:text="Lun. 28 oct. 2019 >"
+                android:text=""
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Heure début"
+                android:text="@string/start_time"
                 android:textSize="18sp" />
 
             <TextView
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="right|center_vertical"
-                android:text="10:00 >"
+                android:text=""
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Heure fin"
+                android:text="@string/end_time"
                 android:textSize="18sp" />
 
             <TextView
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="right|center_vertical"
-                android:text="10:00 >"
+                android:text=""
                 android:textSize="18sp" />
         </LinearLayout>
 

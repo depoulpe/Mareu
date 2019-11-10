@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -32,7 +30,6 @@
             android:id="@+id/item_meeting_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Réunion A - 21/10 16h00 - Peach"
             android:textSize="16dp"
             android:textColor="@color/cardview_dark_background"
             android:textStyle="bold" />
@@ -43,7 +40,6 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="gilles@shcreaweb.nc;depoulpe@free.fr;depoulpe@free.fr"
             android:gravity="center"/>
 
     </LinearLayout>
