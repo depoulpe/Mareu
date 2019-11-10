@@ -24,7 +24,7 @@ import com.openclassroom.mareu.R;
 import com.openclassroom.mareu.di.DI;
 import com.openclassroom.mareu.model.Meeting;
 import com.openclassroom.mareu.service.MeetingApiService;
-import com.openclassroom.mareu.ui.adapters.ParticipantRecyclerViewAdapter;
+import com.openclassroom.mareu.ui.adapters.ParticipantsAdapter;
 import com.openclassroom.mareu.utils.Utils;
 
 import java.text.SimpleDateFormat;
@@ -51,7 +51,7 @@ public class MeetingFragment extends DialogFragment{
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
     private MeetingApiService mMeetingApiService;
-    private ParticipantRecyclerViewAdapter mParticipantAdapter;
+    private ParticipantsAdapter mParticipantAdapter;
     private RecyclerView mParticipantRecyclerView;
     private List<String> mParticipants;
 
@@ -71,7 +71,7 @@ public class MeetingFragment extends DialogFragment{
         return view;
     }
     private void configureRecyclerView() {
-        this.mParticipantAdapter = new ParticipantRecyclerViewAdapter(this.mParticipants);
+        this.mParticipantAdapter = new ParticipantsAdapter(this.mParticipants);
         this.mParticipantRecyclerView.setAdapter(this.mParticipantAdapter);
         this.mParticipantRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -119,7 +119,10 @@ public class MeetingFragment extends DialogFragment{
     }
 
     private void initToolbar() {
-        getDialog().getWindow().requestFeature(FEATURE_NO_TITLE);
+        boolean is_tablet = getResources().getBoolean(R.bool.is_tablet);
+        if (is_tablet) {
+            getDialog().getWindow().requestFeature(FEATURE_NO_TITLE);
+        }
         // inflate menu
         mToolbar.inflateMenu(R.menu.meeting_menu);
         mToolbar.setNavigationIcon(R.drawable.ic_close_24);
