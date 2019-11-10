@@ -17,7 +17,7 @@ import com.openclassroom.mareu.R;
 import com.openclassroom.mareu.di.DI;
 import com.openclassroom.mareu.model.Meeting;
 import com.openclassroom.mareu.service.MeetingApiService;
-import com.openclassroom.mareu.ui.adapters.MeetingListRecyclerViewAdapter;
+import com.openclassroom.mareu.ui.adapters.MeetingsAdapter;
 import com.openclassroom.mareu.utils.Utils;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
 public class MeetingListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private MeetingListRecyclerViewAdapter mAdapter;
+    private MeetingsAdapter mAdapter;
     private List<Meeting> mMeetings;
     private MeetingApiService mApiService;
     MeetingListCallback meetingListCallback;
@@ -72,7 +72,7 @@ public class MeetingListFragment extends Fragment {
     }
 
     private void configureRecyclerView() {
-        this.mAdapter = new MeetingListRecyclerViewAdapter(this.mMeetings,this.meetingListCallback);
+        this.mAdapter = new MeetingsAdapter(this.mMeetings,this.meetingListCallback);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
    }
@@ -125,7 +125,8 @@ public class MeetingListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mApiService.deleteMeeting(meeting);
-                mAdapter.notifyDataSetChanged();
+                // remove filter
+                noFilter();
             }
         });
 
@@ -137,11 +138,6 @@ public class MeetingListFragment extends Fragment {
         });
 
         builder.show();
-    }
-
-    public void addMeeting(final Meeting meeting) {
-    /*    mApiService.addMeeting(meeting);*/
-        mAdapter.notifyDataSetChanged();
     }
 
     /**
