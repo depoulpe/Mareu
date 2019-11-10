@@ -3,7 +3,7 @@
 This deposit contains a small application of P4 course **Grande École du Numérique**.
 
 ## Setup the project in Android studio
-1. `Clone or download` the project code at `https://github.com/depoulpe/OCr_da_p4`
+1. `Clone or download` the project code at `https://github.com/depoulpe/Mareu`
 2. In Android Studio, select *File* | *Open...*
 3. Select the `Mareu` project
 
@@ -16,12 +16,12 @@ This deposit contains a small application of P4 course **Grande École du Numér
 
 
 ## Execute unit test in Android studio
-1. Select `MeetingServiceTest` file in `Test` directory
+1. Select `MareuUnitTest` file in `Test` directory
 2. Right click on it
-3. Run `MeetingServiceTest`
+3. Run `MareuUnitTest`
 
 ## Execute instrumentation test in Android studio
-1. Select `MeetingListTest` file in `androidTest` directory
+1. Select `MareuInstrumentedTest` file in `androidTest` directory
 2. Select a device (*Available Virtual Devices* or *Connected Devices*)
 3. Right click on it
-4. Run `MeetingListTest`
+4. Run `MareuInstrumentedTest`
