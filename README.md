@@ -1,27 +1,36 @@
 # OpenClassrooms
+# Général
 
-This deposit contains a small application of P4 course **Grande École du Numérique**.
+Cette application permet aux collaborateurs de Lamzone de réserver des salles de réunions. 
 
-## Setup the project in Android studio
-1. `Clone or download` the project code at `https://github.com/depoulpe/Mareu`
-2. In Android Studio, select *File* | *Open...*
-3. Select the `Mareu` project
+## Fonctions principales
+
+- Afficher les différentes réunions
+- Filtrer ces réunions selon une date 
+- Filtrer ces réunions selon une salle
+- Ajouter une réunion
+- Supprimer une réunion
+
+## Bibliothèques utilisées 
+
+- RecyclerView
+
+### Livrables
+
+* [x] Les rapports d'exécution (unitaire et instrumentalisé) des tests finaux (qui doivent indiquer que les tests réussissent) au format HTML ;
+* [x] Un lien vers le dépôt GitHub contenant le code de votre application ;
+* [x] Un paragraphe justifiant le choix du langage Java pour le développement de l’application. (comme je n'aurai pas le temps d'apprendre kotlin)
 
 
-## Compile and execute the project in Android studio
-1. In Android Studio, select *Run* | *Run...*
-2. Choose `app` in *Run dialog*
-3. Select a device (*Available Virtual Devices* or *Connected Devices*)
-4. Select `OK` in *Select Deployment Target dialog*
+### TODO
 
-
-## Execute unit test in Android studio
-1. Select `MareuUnitTest` file in `Test` directory
-2. Right click on it
-3. Run `MareuUnitTest`
-
-## Execute instrumentation test in Android studio
-1. Select `MareuInstrumentedTest` file in `androidTest` directory
-2. Select a device (*Available Virtual Devices* or *Connected Devices*)
-3. Right click on it
-4. Run `MareuInstrumentedTest`
+* [x] Développement de l'application.
+    - [x] Choix et Création de la structure (MVVM / MVC</ MVP)
+    - [x] Modifier le style du thème,
+    - [x] Création des Layouts,
+    - [x] Gestion des dates 
+    - [x] Gestion des log 
+    - [x] Gestion des erreurs via les exceptions,
+    - [x] Verification du Formulaire (Disponibilité d'une salle),
+    - [x] Ajout et suppression d'une Salle,
+    - [x] Filtres Salle / Dates
